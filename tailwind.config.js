@@ -13,6 +13,13 @@ module.exports = {
       screens: {
 
       },
+      borderRadius: {
+        'aos': '3rem',
+        'md': '0.375rem',
+        'lg': '0.5rem',
+        'full': '9999px'
+
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -20,5 +27,6 @@ module.exports = {
       },
     },
   },
+
   plugins: [],
 }
