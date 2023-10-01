@@ -2,10 +2,14 @@ import { FcGoogle } from "react-icons/fc"
 import { auth } from "../../utils/firebase"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { useRouter } from "next/router"
+import { useAuthState } from "react-firebase-hooks/auth"
+import { useEffect } from "react"
 const Login = () => {
 
     const googleProvider = new GoogleAuthProvider();
     const router = useRouter();
+
+    const [user, loading] = useAuthState(auth);
 
     const GoogleLogin = async () => {
         try {
@@ -17,6 +21,20 @@ const Login = () => {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    useEffect(() => {
+        if (user) {
+            router.push("/")
+        } else {
+            console.log("login");
+        }
+    }, [user])
+
+    if (loading) {
+        return (
+            <h1 className="text-3xl">Kontrol Ediliyor...</h1>
+        )
     }
     return (
         <div className="shadow-xl mt-32 p-10 text-gray-700 rounded-lg">
