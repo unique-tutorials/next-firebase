@@ -1,6 +1,18 @@
 import Link from "next/link";
+import { auth } from "../utils/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Navbar = () => {
+
+    const [user, loading] = useAuthState(auth)
+    //console.log(user);
+    if (loading) {
+        return (
+            <nav className="flex justify-between items-center py-10">
+                <h2 className="text-3xl">Kullanıcı Bekleniyor...</h2>
+            </nav>
+        )
+    }
     return (
         <nav className="flex justify-between items-center py-10">
             <Link href="/">
@@ -9,9 +21,25 @@ const Navbar = () => {
                 </button>
             </Link>
             <ul>
-                <Link href={"/auth/login"} legacyBehavior>
-                    <a className="text-xl font-small py-2 bg-orange-500 px-4 rounded-lg">Giriş</a>
-                </Link>
+                {!user && (
+                    <Link href={"/auth/login"} legacyBehavior>
+                        <a className="text-xl font-small py-2 bg-orange-500 px-4 rounded-lg">Giriş</a>
+                    </Link>
+                )}
+
+                {user && (
+                    <div className="flex items-center gap-6">
+                        <Link href="/post">
+                            <button className="bg-orange-500 text-white py-2 px-4 rounded-lg text-xl">
+                                Post
+                            </button>
+                        </Link>
+                        <Link href="/dashboard">
+                            <img className="w-12 rounded-full cursor-pointer"
+                                src={user.photoURL} />
+                        </Link>
+                    </div>
+                )}
             </ul>
 
         </nav>
